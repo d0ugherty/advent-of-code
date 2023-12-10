@@ -43,8 +43,8 @@ int extractInt(std::string str){
     return result;
 }
 
-bool isValidGame(std::vector<std::string> tokens) {
-    int cubes;
+std::vector<int> getCubes(std::string token) {
+    std::vector<int> cubes(3,0); // 0 - Red 1 - Green 2 - Blue
     std::string red = "\\d{1,2} red";
     std::string green = "\\d{1,2} green";
     std::string blue =  "\\d{1,2} blue";
@@ -54,34 +54,68 @@ bool isValidGame(std::vector<std::string> tokens) {
     std::regex blue_regex(blue);
     std::smatch match;
 
+    
+    if(std::regex_search(token, match, red_regex)){
+        cubes[0] = extractInt(match[0]);
+    }
+
+    if(std::regex_search(token, match, green_regex)){
+        cubes[1] = extractInt(match[0]);
+    }
+
+    if(std::regex_search(token, match, blue_regex)) {
+        cubes[2] = extractInt(match[0]);
+    }
+    return cubes;
+}
+
+bool isValidGame(std::vector<std::string> tokens) { 
+    std::vector<int> cubes;
     const int redCubes = 12;
     const int greenCubes = 13;
     const int blueCubes = 14;
     
-    for(std::string token : tokens) {
-        
-        if(std::regex_search(token, match, red_regex)){
-            cubes = extractInt(match[0]);
-            if(cubes > redCubes){
-                return false;
-            }
+
+    for (std::string token : tokens) {
+        cubes = getCubes(token);
+        if (cubes[0] > redCubes) {
+            return false;
         }
 
-        if(std::regex_search(token, match, green_regex)){
-            cubes = extractInt(match[0]);
-            if(cubes > greenCubes) {
-                return false;
-            }
+        if (cubes[1] > greenCubes) {
+            return false;
         }
 
-        if(std::regex_search(token, match, blue_regex)) {
-            cubes = extractInt(match[0]);
-            if(cubes > blueCubes) {
-                return false;
-            }
-        }
+        if (cubes[2] > blueCubes) {
+            return false;
+        }  
     }
     return true;
+}
+
+int powerOfSet(std::vector<std::string> tokens) {
+    std::vector<int> cubes;
+    
+    int redMin = 0;
+    int blueMin = 0;
+    int greenMin = 0;
+
+    for (std::string token : tokens) {
+        cubes = getCubes(token);
+            
+        if (cubes[0] > redMin) {
+            redMin = cubes[0];
+        }
+
+        if (cubes[1] > greenMin) {
+            greenMin = cubes[1];
+        }
+
+        if (cubes[2] > blueMin) {
+            blueMin = cubes[2];
+        }
+    }
+    return redMin * greenMin * blueMin;
 }
 
 
@@ -90,8 +124,10 @@ int main () {
     std::ifstream infile("input.txt");
     std::vector<std::string> split_line;
     int sumOfGames;
+    int sumOfPowers;
 
     sumOfGames = 0;
+    sumOfPowers = 0;
     int gameId = 1;
 
     while(std::getline(infile,line)){
@@ -101,6 +137,8 @@ int main () {
         // Break up each line (game) into invidual rounds of the game
         std::vector<std::string> tokens = splitString(line, ";");
         
+        sumOfPowers += powerOfSet(tokens);
+
         if(isValidGame(tokens)) {
             sumOfGames += gameId;
         }
@@ -108,7 +146,7 @@ int main () {
     }
     
     std::cout << "Number of games: " << sumOfGames << std::endl;
-
+    std::cout << "Sum of powers: " << sumOfPowers << std::endl;
     return 0;
 }
 
