@@ -5,7 +5,7 @@
 #include <sstream>
 
 
-std::vector<std::string> splitString(std::string str, std::string delim) {
+std::vector<std::string> splitString(const std::string& str, const std::string& delim) {
     std::string token;
     std::vector<std::string> result;
     size_t end_pos;
@@ -43,15 +43,15 @@ int extractInt(std::string str){
     return result;
 }
 
-std::vector<int> getCubes(std::string token) {
+std::vector<int> getCubes(const std::string& token) {
     std::vector<int> cubes(3,0); // 0 - Red 1 - Green 2 - Blue
-    std::string red = "\\d{1,2} red";
-    std::string green = "\\d{1,2} green";
-    std::string blue =  "\\d{1,2} blue";
+    static std::string red = "\\d{1,2} red";
+    static std::string green = "\\d{1,2} green";
+    static std::string blue =  "\\d{1,2} blue";
 
-    std::regex red_regex(red);
-    std::regex green_regex(green);
-    std::regex blue_regex(blue);
+    static std::regex red_regex(red);
+    static std::regex green_regex(green);
+    static std::regex blue_regex(blue);
     std::smatch match;
 
     
@@ -71,9 +71,9 @@ std::vector<int> getCubes(std::string token) {
 
 bool isValidGame(std::vector<std::string> tokens) { 
     std::vector<int> cubes;
-    const int redCubes = 12;
-    const int greenCubes = 13;
-    const int blueCubes = 14;
+    static const int redCubes = 12;
+    static const int greenCubes = 13;
+    static const int blueCubes = 14;
     
 
     for (std::string token : tokens) {
@@ -93,7 +93,7 @@ bool isValidGame(std::vector<std::string> tokens) {
     return true;
 }
 
-int powerOfSet(std::vector<std::string> tokens) {
+int powerOfSet(std::vector<std::string>& tokens) {
     std::vector<int> cubes;
     
     int redMin = 0;
