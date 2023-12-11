@@ -69,7 +69,7 @@ std::vector<int> getCubes(const std::string& token) {
     return cubes;
 }
 
-bool isValidGame(std::vector<std::string> tokens) { 
+bool isValidGame(std::vector<std::string>& tokens) { 
     std::vector<int> cubes;
     static const int redCubes = 12;
     static const int greenCubes = 13;
