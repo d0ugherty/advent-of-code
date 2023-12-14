@@ -12,27 +12,35 @@ bool isPartNumber(){
     return true;
 }
 
-int searchForPart(std::string currLine, std::string prevLine = "", std::string nextLine = "") {
+int searchForPart(std::string& currLine, std::string prevLine, std::string& nextLine) {
     size_t size = currLine.size() - 1;
-    for(int i = 0; i <= size; i++) {
-        
+    print("Current: " + currLine);
+    print("Previous: " + prevLine);
+    print("Next : " + nextLine);
+    for(size_t i = 0; i <= size; i++) {
+        //std::cout << currLine[i];
     }
+    return 0;
 }
 
-int sumOfPartNumbers(std::vector<std::string>& fileArray){
+int sumOfPartNumbers(std::vector<std::string> fileArray){
     int sum;
     int partNumber;
-    size_t size = fileArray.size() - 1;
-
+    std::string currLine;
+   // std::string nextLine;
+   // std::string prevLine;
+    //size_t size = fileArray.size() - 1;
+    size_t size = 5;
     sum = 0;
-    for(int i = 0; i <= size; i++){
-        std::string currLine = fileArray[i];
-        std::string nextLine = i != size ? fileArray[i+1] : "";
-        std::string prevLine = i != 0 ? fileArray[i-1] : "";
-
-        sum += searchForPart(currLine, prevLine, nextLine);       
+    auto it = fileArray.begin();
+    for(int i = 0; i < size; i++) {
+        currLine = fileArray[i];
+        auto next = std::next(it, 1);
+        auto prev = std::prev(it,-1);
+        print("here");
+        sum += searchForPart(currLine, *prev, *next);       
     }
-    return sum;
+   return sum;
 }
 
 std::vector<std::string> toArray(std::istream& infile){
@@ -55,16 +63,18 @@ int main(int argc, char* argv[]) {
     std::istream* input_ptr = &std::cin; 
     std::ifstream file;
     std::vector<std::string> fileArray;
+    int sum;
     if (argc > 1) {
         file.open(argv[1]);
         if (file.is_open()) {
             // now point to the file stream
+            print("file is open");
             input_ptr = &file;
+            std::istream& input = *input_ptr;
+            fileArray = toArray(input);
         }
     }
-    int sumOfPartNumbers;
     // reference to the stream
-    std::istream& input = *input_ptr;
-    fileArray = toArray(input);
+    sum = sumOfPartNumbers(fileArray); 
     return 0;
 }
