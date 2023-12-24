@@ -15,8 +15,12 @@ bool isPartNumber(){
 int searchForPart(std::string& currLine, std::string prevLine, std::string& nextLine) {
     size_t size = currLine.size() - 1;
     print("Current: " + currLine);
-    print("Previous: " + prevLine);
-    print("Next : " + nextLine);
+    
+        print("Previous: " + prevLine);
+    
+ 
+        print("Next : " + nextLine);
+
     for(size_t i = 0; i <= size; i++) {
         //std::cout << currLine[i];
     }
@@ -30,15 +34,16 @@ int sumOfPartNumbers(std::vector<std::string> fileArray){
    // std::string nextLine;
    // std::string prevLine;
     //size_t size = fileArray.size() - 1;
-    size_t size = 5;
+   // size_t size = 5;
+ 
     sum = 0;
-    auto it = fileArray.begin();
-    for(int i = 0; i < size; i++) {
-        currLine = fileArray[i];
+    for(auto it = fileArray.begin(); it != fileArray.end(); ++it) {
+        currLine = *it;
         auto next = std::next(it, 1);
-        auto prev = std::prev(it,-1);
-        print("here");
-        sum += searchForPart(currLine, *prev, *next);       
+        auto prev = std::next(it,-1);
+        std::cout << *next << "\n";
+        std::cout << *prev << "\n";
+        //sum += searchForPart(currLine, *prev, *next);       
     }
    return sum;
 }
@@ -52,6 +57,7 @@ std::vector<std::string> toArray(std::istream& infile){
         std::string arrayLine;
         while(ss >> arrayLine) {
             result.push_back(arrayLine);
+           
         }
         result.push_back("\n");
     }
@@ -75,6 +81,7 @@ int main(int argc, char* argv[]) {
         }
     }
     // reference to the stream
+ 
     sum = sumOfPartNumbers(fileArray); 
     return 0;
 }

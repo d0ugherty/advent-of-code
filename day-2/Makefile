@@ -4,14 +4,14 @@
 CC = g++
 CFLAGS = -Wall -g
 LDFLAGS = -lstdc++
-TARGET = day-2
+TARGET = day3
 
 # RULES
 
 all: $(TARGET)
 
-$(TARGET): day-2.cpp
-	$(CC) $(CFLAGS) -o $(TARGET) day-2.cpp $(LDFLAGS)
+$(TARGET): day3.cpp
+	$(CC) $(CFLAGS) -o $(TARGET) day3.cpp $(LDFLAGS)
 
 clean:
 	rm -f $(TARGET)
