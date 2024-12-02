@@ -17,12 +17,9 @@ def sort_list(input_list: list) -> list:
         input_list[small_idx] = temp
 
 def extract_ids(id_list: list) -> list:
-    # Get list of IDs
-    list_one = []
-    list_two = []
-    for idx, row in enumerate(id_list):
-        list_one.append(int(row[0]))
-        list_two.append(int(row[3]))
+    # Get lists of IDs
+    list_one = [int(row[0]) for row in id_list]
+    list_two = [int(row[3]) for row in id_list]
 
     return list_one, list_two
 
@@ -37,11 +34,10 @@ def get_list_from_file(file_name: str) -> list:
     return id_list
 
 def get_total_distance(list_one: list, list_two: list) -> int:
-    total = 0
-    for idx, value in enumerate(list_one):
-        difference = abs(value - list_two[idx])
-        total += difference
-    return total
+    return sum(abs(a - b) for a, b in zip(list_one, list_two))
+
+def sim_score(list_one: list, list_two: list) -> int:
+   return sum(value * list_two.count(value) for value in list_one)
 
 if __name__ == '__main__':
     print(sys.argv[1])
@@ -52,3 +48,4 @@ if __name__ == '__main__':
     sort_list(list_two)
     total_distance = get_total_distance(list_one, list_two)
     print(total_distance)
+    print(sim_score(list_one, list_two))
