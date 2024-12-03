@@ -1,3 +1,4 @@
-input_day1.txt
+*input*.txt
+*test*.txt
 .venv
 .idea
