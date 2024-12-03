@@ -24,14 +24,8 @@ def extract_ids(id_list: list) -> list:
     return list_one, list_two
 
 def get_list_from_file(file_name: str) -> list:
-    file = open(file_name)
-    id_list = []
-    with file as f:
-        file_reader = csv.reader(f, delimiter=' ')
-        for row in file_reader:
-            id_list.append(row)
-
-    return id_list
+    with open(file_name) as file:
+        return [row for row in csv.reader(file, delimiter=" ")]
 
 def get_total_distance(list_one: list, list_two: list) -> int:
     return sum(abs(a - b) for a, b in zip(list_one, list_two))
