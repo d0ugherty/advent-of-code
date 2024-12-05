@@ -19,7 +19,7 @@ def problem_dampener(unsafe_report: list):
         new_report = unsafe_report.copy()
         new_report.remove(level)
         if is_safe(new_report):
-            print(new_report)
+            #print(new_report)
             return new_report
 
 
@@ -29,10 +29,10 @@ def is_safe(report):
         prev_level = int(prev) if prev is not None else None
         next_level = int(next) if next is not None else None
 
-        if next_level is not None and abs(current_level - next_level) >= 4:
+        if next_level is not None and abs(current_level - next_level) > 3:
             return False
 
-        if next_level is not None and abs(current_level - next_level) == 0:
+        if next_level is not None and abs(current_level - next_level) < 1:
             return False
 
         if prev_level is not None and next_level is not None:
